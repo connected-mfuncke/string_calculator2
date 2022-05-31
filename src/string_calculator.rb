@@ -1,22 +1,30 @@
 class StringCalculator
+  MAX_NUMBER_SIZE = 1000
   def add(str)
-    # A + B
-    # sum(nums)
     return 0 if str.empty?
-    return str.to_i unless str.include?(',') || str.include?('\n')
+    # TODO - extract str into StringCalculator attribute
+    return str.to_i unless delimeters_present? str
 
+    get_numbers(str).sum { |x| x.to_i }
+  end
+
+  private
+
+  def delimeters_present? str
+    str.include?(',') || str.include?('\n')
+  end
+
+  def get_numbers str
     ints = Delimiter.construct(str).split
     validate_input ints
 
-    ints.filter { |i| i.to_i <= 1000 }.sum { |x| x.to_i }
+    ints.filter { |i| i.to_i <= MAX_NUMBER_SIZE }
   end
 
   def validate_input ints
     negatives = ints.filter { |i| i.to_i < 0 }
     raise StandardError, "negatives not allowed: #{negatives.join(',')}" if negatives.length > 0
   end
-
-  private
 
   class Delimiter
     def initialize(str)
