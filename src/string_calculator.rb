@@ -1,14 +1,19 @@
 class StringCalculator
   def add(str)
+    # A + B
+    # sum(nums)
     return 0 if str.empty?
     return str.to_i unless str.include?(',') || str.include?('\n')
 
-    ints = Delimiter.splitIntoSubStrings(str).split
-
-    negatives = ints.filter { |i| i.to_i < 0 }
-    raise StandardError, "negatives not allowed: #{negatives.join(',')}" if negatives.length > 0
+    ints = Delimiter.construct(str).split
+    validate_input ints
 
     ints.filter { |i| i.to_i <= 1000 }.sum { |x| x.to_i }
+  end
+
+  def validate_input ints
+    negatives = ints.filter { |i| i.to_i < 0 }
+    raise StandardError, "negatives not allowed: #{negatives.join(',')}" if negatives.length > 0
   end
 
   private
@@ -18,11 +23,15 @@ class StringCalculator
       @str = str
     end
 
-    def self.splitIntoSubStrings(str)
+    def split
+      @str.split(/[\\n,]/)
+    end
+
+    def self.construct(str)
       if str.include?('//')
-        CustomDelimiter.new
+        CustomDelimiter.new str
       else
-        DefaultDelimiter.new
+        Delimiter.new str
       end
     end
   end
@@ -32,12 +41,6 @@ class StringCalculator
       head, tail = @str.split('\n')
       delimiter = head.sub('//', '')
       tail.split(delimiter)
-    end
-  end
-
-  class DefaultDelimiter < Delimiter
-    def split
-      @str.split(/[\\n,]/)
     end
   end
 end
