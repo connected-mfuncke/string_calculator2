@@ -65,6 +65,19 @@ RSpec.describe 'RomanNumerals' do
     # None
     # Oops
   end
+
+  describe '.roman?' do
+    it 'Should return true when given a roman numeral' do
+      expect(subject.roman?('I')).to eq true
+      expect(subject.roman?('II')).to eq true
+      expect(subject.roman?('MCVII')).to eq true
+    end
+
+    it 'Should return false when given an integer' do
+      expect(subject.roman?('6')).to eq false
+      expect(subject.roman?('I6M')).to eq false
+    end
+  end
 end
 
 

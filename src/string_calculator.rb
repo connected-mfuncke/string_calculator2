@@ -1,21 +1,30 @@
+require './src/roman_numerals'
+
 class StringCalculator
   MAX_NUMBER_SIZE = 1000
-  def add(str)
-    return 0 if str.empty?
-    # TODO - extract str into StringCalculator attribute
-    return str.to_i unless delimeters_present? str
 
-    get_numbers(str).sum { |x| x.to_i }
+  attr_reader :str
+
+  def initialize input
+    @str = input
+  end
+
+  def add
+    return 0 if str.empty?
+    return str.to_i unless delimeters_present?
+
+    get_numbers.sum { |x| x.to_i }
   end
 
   private
 
-  def delimeters_present? str
+  def delimeters_present?
     str.include?(',') || str.include?('\n')
   end
 
-  def get_numbers str
+  def get_numbers
     ints = Delimiter.construct(str).split
+    ints = ints.map { |x| RomanNumerals.roman?(x) ? RomanNumerals.roman_to_int(x) : x }
     validate_input ints
 
     ints.filter { |i| i.to_i <= MAX_NUMBER_SIZE }

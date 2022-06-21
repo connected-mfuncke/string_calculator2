@@ -44,6 +44,8 @@ class RomanNumerals
     'M' => 1000
   }.freeze
 
+  # TODO - Convert to using instance methods. This static nonesense is nonesense.
+
   # algorithm from stackoverflow http://......
   def self.roman_to_int(num)
     total = 0
@@ -62,5 +64,9 @@ class RomanNumerals
 
   def self.calculate(val, next_val)
     subtractive?(next_val, val) ? ROMAN_NUMERALS[val] * -1 : ROMAN_NUMERALS[val]
+  end
+
+  def self.roman?(val)
+    val.split('').all? { |x| ROMAN_NUMERALS[x] }
   end
 end
