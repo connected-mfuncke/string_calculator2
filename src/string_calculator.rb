@@ -24,7 +24,9 @@ class StringCalculator
 
   def get_numbers
     ints = Delimiter.construct(str).split
-    ints = ints.map { |x| RomanNumerals.roman?(x) ? RomanNumerals.roman_to_int(x) : x }
+    # TODO - extract this into an injected dependency
+    converter = RomanNumerals.new
+    ints = ints.map { |x| converter.roman?(x) ? converter.roman_to_int(x) : x }
     validate_input ints
 
     ints.filter { |i| i.to_i <= MAX_NUMBER_SIZE }

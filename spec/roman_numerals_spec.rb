@@ -1,7 +1,7 @@
 require './src/roman_numerals.rb'
 
 RSpec.describe 'RomanNumerals' do
-  subject { RomanNumerals }
+  subject { RomanNumerals.new }
 
   describe '.int_to_roman' do
     {

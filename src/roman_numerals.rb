@@ -20,7 +20,10 @@ class RomanNumerals
   # 1. a cleaner mapping from integers to numerals
   # 2. eliminates ambiguity, i.e. exactly one way to numeralize any given integer.
 
-  def self.int_to_roman input
+  def initialize
+  end
+
+  def int_to_roman input
     output_numerals = ""
 
     temp = input
@@ -44,10 +47,8 @@ class RomanNumerals
     'M' => 1000
   }.freeze
 
-  # TODO - Convert to using instance methods. This static nonesense is nonesense.
-
   # algorithm from stackoverflow http://......
-  def self.roman_to_int(num)
+  def roman_to_int(num)
     total = 0
 
     chars = num.split('')
@@ -58,15 +59,15 @@ class RomanNumerals
     total
   end
 
-  def self.subtractive?(next_val, current_val)
+  def subtractive?(next_val, current_val)
     ROMAN_NUMERALS[next_val] && ROMAN_NUMERALS[current_val] < ROMAN_NUMERALS[next_val]
   end
 
-  def self.calculate(val, next_val)
+  def calculate(val, next_val)
     subtractive?(next_val, val) ? ROMAN_NUMERALS[val] * -1 : ROMAN_NUMERALS[val]
   end
 
-  def self.roman?(val)
+  def roman?(val)
     val.split('').all? { |x| ROMAN_NUMERALS[x] }
   end
 end
